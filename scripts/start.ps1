@@ -4,7 +4,7 @@ $RepoRoot = Join-Path $PSScriptRoot ".."
 
 Push-Location (Join-Path $RepoRoot "frontend")
 npm install
-npm run test:unit
+npm run test:all
 Pop-Location
 
 docker build -t pm-app $RepoRoot

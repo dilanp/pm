@@ -21,6 +21,11 @@ Success criteria:
 - frontend/AGENTS.md accurately describes the current frontend codebase and scripts.
 - User explicitly approves the plan.
 
+## Testing Guidance
+
+- Aim for ~80% coverage when it is sensible, but prioritize valuable tests over coverage.
+- It is acceptable to be below 80% if achieving it would require low-value tests.
+
 ## Part 2: Scaffolding
 
 Goal: set up Docker, FastAPI backend, and start/stop scripts; serve a hello world page and a sample API response.
@@ -67,18 +72,18 @@ Success criteria:
 Goal: add a simple login gate with dummy credentials (user/password) and logout.
 
 Checklist:
-- [ ] Create a login UI and gating logic in the frontend.
-- [ ] Add minimal backend auth session or token handling if needed.
-- [ ] Ensure logout clears session state and returns to login screen.
+- [x] Create a login UI and gating logic in the frontend.
+- [x] Add minimal backend auth session or token handling if needed.
+- [x] Ensure logout clears session state and returns to login screen.
 
 Tests:
 - Frontend unit tests for login form behavior.
 - E2E tests for login success, login failure, and logout.
 
 Success criteria:
-- User must log in to see the Kanban.
-- Correct dummy credentials grant access; invalid credentials do not.
-- Logout returns to the login screen.
+- [x] User must log in to see the Kanban.
+- [x] Correct dummy credentials grant access; invalid credentials do not.
+- [x] Logout returns to the login screen.
 
 ## Part 5: Database Modeling
 

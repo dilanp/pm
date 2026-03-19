@@ -19,6 +19,14 @@ RUN uv pip install --system -r /app/backend/requirements.txt
 
 COPY backend /app/backend
 
+COPY frontend/package.json frontend/package-lock.json /app/frontend/
+RUN npm --prefix /app/frontend ci
+
+COPY frontend /app/frontend
+RUN npm --prefix /app/frontend run build
+RUN mkdir -p /app/backend/app/static \
+    && cp -r /app/frontend/out/. /app/backend/app/static/
+
 ENV PYTHONPATH=/app
 EXPOSE 8000
 
