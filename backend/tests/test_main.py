@@ -14,3 +14,11 @@ def test_api_hello_returns_json() -> None:
     response = client.get("/api/hello")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello from FastAPI"}
+
+
+def test_ai_test_endpoint_returns_answer() -> None:
+    response = client.get("/api/ai/test", auth=("user", "password"))
+    assert response.status_code == 200
+    payload = response.json()
+    assert "response" in payload
+    assert "4" in payload["response"]

@@ -19,6 +19,8 @@ RUN uv pip install --system -r /app/backend/requirements.txt
 
 COPY backend /app/backend
 
+COPY .env /app/.env
+
 COPY frontend/package.json frontend/package-lock.json /app/frontend/
 RUN npm --prefix /app/frontend ci
 

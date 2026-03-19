@@ -7,11 +7,11 @@ This document expands each phase into actionable checklists with tests and succe
 Goal: lock a detailed execution plan and document the current frontend baseline.
 
 Checklist:
-- [ ] Expand this PLAN with checklists, tests, and success criteria per phase.
-- [ ] Document the existing frontend in frontend/AGENTS.md.
-- [ ] Confirm Python and Node versions are latest stable at implementation time.
-- [ ] Align on backend test runner (pytest) and frontend test invocation requirements.
-- [ ] Get user approval before starting Part 2.
+- [x] Expand this PLAN with checklists, tests, and success criteria per phase.
+- [x] Document the existing frontend in frontend/AGENTS.md.
+- [x] Confirm Python and Node versions are latest stable at implementation time.
+- [x] Align on backend test runner (pytest) and frontend test invocation requirements.
+- [x] Get user approval before starting Part 2.
 
 Tests:
 - N/A (documentation-only phase).
@@ -20,6 +20,9 @@ Success criteria:
 - PLAN.md includes clear, phase-by-phase checklists, tests, and success criteria.
 - frontend/AGENTS.md accurately describes the current frontend codebase and scripts.
 - User explicitly approves the plan.
+
+Design Decisions:
+- None beyond documenting the plan scope and baseline.
 
 ## Testing Guidance
 
@@ -48,6 +51,11 @@ Success criteria:
 - Start/stop scripts function on each OS and run frontend tests before launch.
 - README or docs mention how to run the container and scripts.
 
+Design Decisions:
+- FastAPI serves a simple HTML fallback at / when static assets are absent.
+- Start scripts run frontend unit + e2e tests before container launch.
+- Docker uses uv for Python dependencies and Node 22 for frontend build.
+
 ## Part 3: Add in Frontend
 
 Goal: serve the existing Next.js Kanban UI as a static build from FastAPI.
@@ -67,6 +75,10 @@ Success criteria:
 - All frontend tests pass and are run before the app launch.
 - No regression in existing drag-and-drop or card creation flows.
 
+Design Decisions:
+- Next.js uses static export output and is served by FastAPI StaticFiles.
+- Docker build compiles the frontend export and copies it into the backend image.
+
 ## Part 4: Fake User Sign In
 
 Goal: add a simple login gate with dummy credentials (user/password) and logout.
@@ -85,6 +97,10 @@ Success criteria:
 - [x] Correct dummy credentials grant access; invalid credentials do not.
 - [x] Logout returns to the login screen.
 
+Design Decisions:
+- Frontend-only auth gate with localStorage persistence for MVP simplicity.
+- Logout is exposed in the board header and clears local state.
+
 ## Part 5: Database Modeling
 
 Goal: define the Kanban database schema and document the data model.
@@ -100,6 +116,10 @@ Tests:
 
 Success criteria:
 - JSON schema and documentation exist and are approved.
+
+Design Decisions:
+- SQLite schema keeps single board per user via a unique index on boards.user_id.
+- Ordering is represented by integer position fields for columns and cards.
 
 ## Part 6: Backend
 
@@ -118,6 +138,11 @@ Success criteria:
 - CRUD endpoints work for the single-board-per-user model.
 - Backend tests pass and cover error cases.
 
+Design Decisions:
+- Backend exposes a single-board GET/PUT API and replaces full board state.
+- Seed data mirrors the frontend demo for consistent UI on first load.
+- DB path is configurable via PM_DB_PATH with a default under data/.
+
 ## Part 7: Frontend + Backend
 
 Goal: connect the frontend to backend APIs for persistent Kanban state.
@@ -135,14 +160,19 @@ Success criteria:
 - Kanban changes persist across reloads.
 - UI stays responsive and consistent with backend data.
 
+Design Decisions:
+- Frontend maps API IDs to stable UI IDs (col-*/card-*) for DnD.
+- Optimistic UI updates with save status; fallback to demo data if fetch fails.
+- Frontend tests stub API calls to avoid a live backend dependency.
+
 ## Part 8: AI Connectivity
 
 Goal: enable backend AI calls through OpenRouter.
 
 Checklist:
-- [ ] Add OpenRouter client using OPENROUTER_API_KEY.
-- [ ] Implement a test endpoint that asks "2+2".
-- [ ] Use model openai/gpt-oss-120b.
+- [x] Add OpenRouter client using OPENROUTER_API_KEY.
+- [x] Implement a test endpoint that asks "2+2".
+- [x] Use model openai/gpt-oss-120b.
 
 Tests:
 - Backend test that hits AI endpoint and asserts response includes "4".
@@ -155,9 +185,9 @@ Success criteria:
 Goal: send board JSON and user prompt to AI and parse structured output.
 
 Checklist:
-- [ ] Define a structured output schema for response + optional board updates.
-- [ ] Send current board + conversation history to AI.
-- [ ] Validate and apply structured updates in backend.
+- [x] Define a structured output schema for response + optional board updates.
+- [x] Send current board + conversation history to AI.
+- [x] Validate and apply structured updates in backend.
 
 Tests:
 - Unit tests for schema validation and update application.
@@ -172,9 +202,9 @@ Success criteria:
 Goal: add a sidebar chat UI that displays AI responses and updates the board.
 
 Checklist:
-- [ ] Build a sidebar chat widget in the frontend.
-- [ ] Wire chat requests to backend AI endpoint.
-- [ ] Apply AI-driven updates and refresh the board automatically.
+- [x] Build a sidebar chat widget in the frontend.
+- [x] Wire chat requests to backend AI endpoint.
+- [x] Apply AI-driven updates and refresh the board automatically.
 
 Tests:
 - Frontend unit tests for chat UI behavior.

@@ -11,6 +11,7 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
+import { AIChatSidebar } from "@/components/AIChatSidebar";
 import { KanbanColumn } from "@/components/KanbanColumn";
 import { KanbanCardPreview } from "@/components/KanbanCardPreview";
 import { createId, initialData, moveCard, type BoardData } from "@/lib/kanban";
@@ -248,18 +249,23 @@ export const KanbanBoard = ({ onLogout }: KanbanBoardProps) => {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <section className="grid gap-6 lg:grid-cols-5">
-            {board.columns.map((column) => (
-              <KanbanColumn
-                key={column.id}
-                column={column}
-                cards={column.cardIds.map((cardId) => board.cards[cardId])}
-                onRename={handleRenameColumn}
-                onAddCard={handleAddCard}
-                onDeleteCard={handleDeleteCard}
-              />
-            ))}
-          </section>
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <section className="order-2 grid gap-6 lg:order-1 lg:grid-cols-5">
+              {board.columns.map((column) => (
+                <KanbanColumn
+                  key={column.id}
+                  column={column}
+                  cards={column.cardIds.map((cardId) => board.cards[cardId])}
+                  onRename={handleRenameColumn}
+                  onAddCard={handleAddCard}
+                  onDeleteCard={handleDeleteCard}
+                />
+              ))}
+            </section>
+            <div className="order-1 lg:order-2 lg:sticky lg:top-10">
+              <AIChatSidebar board={board} onBoardUpdate={setBoard} />
+            </div>
+          </div>
           <DragOverlay>
             {activeCard ? (
               <div className="w-[260px]">
