@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "dialect": "sqlite",
+  "tables": {
+    "users": {
+      "columns": {
+        "id": { "type": "integer", "primaryKey": true },
+        "username": { "type": "text", "notNull": true, "unique": true },
+        "created_at": { "type": "text", "notNull": true }
+      }
+    },
+    "boards": {
+      "columns": {
+        "id": { "type": "integer", "primaryKey": true },
+        "user_id": {
+          "type": "integer",
+          "notNull": true,
+          "references": { "table": "users", "column": "id", "onDelete": "cascade" }
+        },
+        "title": { "type": "text", "notNull": true },
+        "created_at": { "type": "text", "notNull": true }
+      },
+      "indexes": [
+        { "name": "boards_user_id_idx", "columns": ["user_id"] },
+        { "name": "boards_user_unique", "columns": ["user_id"], "unique": true }
+      ]
+    },
+    "columns": {
+      "columns": {
+        "id": { "type": "integer", "primaryKey": true },
+        "board_id": {
+          "type": "integer",
+          "notNull": true,
+          "references": { "table": "boards", "column": "id", "onDelete": "cascade" }
+        },
+        "title": { "type": "text", "notNull": true },
+        "position": { "type": "integer", "notNull": true },
+        "created_at": { "type": "text", "notNull": true }
+      },
+      "indexes": [
+        { "name": "columns_board_id_idx", "columns": ["board_id"] },
+        { "name": "columns_board_position_unique", "columns": ["board_id", "position"], "unique": true }
+      ]
+    },
+    "cards": {
+      "columns": {
+        "id": { "type": "integer", "primaryKey": true },
+        "column_id": {
+          "type": "integer",
+          "notNull": true,
+          "references": { "table": "columns", "column": "id", "onDelete": "cascade" }
+        },
+        "title": { "type": "text", "notNull": true },
+        "details": { "type": "text", "notNull": true },
+        "position": { "type": "integer", "notNull": true },
+        "created_at": { "type": "text", "notNull": true },
+        "updated_at": { "type": "text", "notNull": true }
+      },
+      "indexes": [
+        { "name": "cards_column_id_idx", "columns": ["column_id"] },
+        { "name": "cards_column_position_unique", "columns": ["column_id", "position"], "unique": true }
+      ]
+    }
+  }
+}

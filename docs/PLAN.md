@@ -31,13 +31,13 @@ Success criteria:
 Goal: set up Docker, FastAPI backend, and start/stop scripts; serve a hello world page and a sample API response.
 
 Checklist:
-- [ ] Create backend/ FastAPI app with health and sample JSON endpoints.
-- [ ] Serve a static hello world HTML page directly from FastAPI at /.
-- [ ] Add a simple API route (e.g., /api/hello) that returns JSON.
-- [ ] Create Dockerfile and docker ignore as needed.
-- [ ] Add start/stop scripts for Mac, Windows, Linux under scripts/.
-- [ ] Ensure scripts run frontend tests before launching the web app.
-- [ ] Use latest stable Python and Node versions in the container.
+- [x] Create backend/ FastAPI app with health and sample JSON endpoints.
+- [x] Serve a static hello world HTML page directly from FastAPI at /.
+- [x] Add a simple API route (e.g., /api/hello) that returns JSON.
+- [x] Create Dockerfile and docker ignore as needed.
+- [x] Add start/stop scripts for Mac, Windows, Linux under scripts/.
+- [x] Ensure scripts run frontend tests before launching the web app.
+- [x] Use latest stable Python and Node versions in the container.
 
 Tests:
 - Backend: pytest smoke tests for / and /api/hello.
@@ -53,10 +53,10 @@ Success criteria:
 Goal: serve the existing Next.js Kanban UI as a static build from FastAPI.
 
 Checklist:
-- [ ] Configure frontend build output for static export.
-- [ ] Adjust FastAPI to serve the static frontend at /.
-- [ ] Ensure asset paths and routing work with FastAPI static hosting.
-- [ ] Wire docker build to produce and include static frontend assets.
+- [x] Configure frontend build output for static export.
+- [x] Adjust FastAPI to serve the static frontend at /.
+- [x] Ensure asset paths and routing work with FastAPI static hosting.
+- [x] Wire docker build to produce and include static frontend assets.
 
 Tests:
 - Frontend: run existing unit tests (Vitest) and e2e tests (Playwright).
@@ -90,10 +90,10 @@ Success criteria:
 Goal: define the Kanban database schema and document the data model.
 
 Checklist:
-- [ ] Propose a SQLite schema for users, boards, columns, cards.
-- [ ] Save schema as JSON (docs/ or a new schema file).
-- [ ] Document the data model decisions and constraints in docs/.
-- [ ] Get user sign-off before implementing storage.
+- [x] Propose a SQLite schema for users, boards, columns, cards.
+- [x] Save schema as JSON (docs/ or a new schema file).
+- [x] Document the data model decisions and constraints in docs/.
+- [x] Get user sign-off before implementing storage.
 
 Tests:
 - N/A (documentation-only phase).
@@ -106,9 +106,9 @@ Success criteria:
 Goal: implement CRUD endpoints for Kanban data in FastAPI.
 
 Checklist:
-- [ ] Add data access layer with SQLite; create DB if missing.
-- [ ] Implement endpoints to fetch and update board data.
-- [ ] Validate requests and handle errors simply.
+- [x] Add data access layer with SQLite; create DB if missing.
+- [x] Implement endpoints to fetch and update board data.
+- [x] Validate requests and handle errors simply.
 
 Tests:
 - Backend unit tests with pytest for all endpoints.
@@ -123,9 +123,9 @@ Success criteria:
 Goal: connect the frontend to backend APIs for persistent Kanban state.
 
 Checklist:
-- [ ] Replace frontend local state with API calls.
-- [ ] Add loading/error states with minimal UI changes.
-- [ ] Ensure drag/drop and card edits persist.
+- [x] Replace frontend local state with API calls.
+- [x] Add loading/error states with minimal UI changes.
+- [x] Ensure drag/drop and card edits persist.
 
 Tests:
 - Integration tests for end-to-end persistence.

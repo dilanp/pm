@@ -4,6 +4,71 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.clear();
   });
+
+  let boardState = {
+    id: 1,
+    title: "Kanban Studio",
+    columns: [
+      {
+        id: 1,
+        title: "Backlog",
+        position: 0,
+        cards: [
+          {
+            id: 11,
+            title: "Align roadmap themes",
+            details: "Draft quarterly themes with impact statements and metrics.",
+            position: 0,
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Discovery",
+        position: 1,
+        cards: [
+          {
+            id: 21,
+            title: "Prototype analytics view",
+            details: "Sketch initial dashboard layout and key drill-downs.",
+            position: 0,
+          },
+        ],
+      },
+      { id: 3, title: "In Progress", position: 2, cards: [] },
+      { id: 4, title: "Review", position: 3, cards: [] },
+      { id: 5, title: "Done", position: 4, cards: [] },
+    ],
+  };
+
+  const buildBoardFromUpdate = (payload: any) => {
+    return {
+      id: 1,
+      title: payload.board.title,
+      columns: payload.board.columns.map((column: any, columnIndex: number) => ({
+        id: columnIndex + 1,
+        title: column.title,
+        position: column.position ?? columnIndex,
+        cards: column.cards.map((card: any, cardIndex: number) => ({
+          id: (columnIndex + 1) * 100 + cardIndex + 1,
+          title: card.title,
+          details: card.details,
+          position: card.position ?? cardIndex,
+        })),
+      })),
+    };
+  };
+
+  await page.route("**/api/board", async (route) => {
+    const request = route.request();
+    if (request.method() === "PUT") {
+      const payload = JSON.parse(request.postData() ?? "{}");
+      boardState = buildBoardFromUpdate(payload);
+      await route.fulfill({ json: { board: boardState } });
+      return;
+    }
+    await route.fulfill({ json: { board: boardState } });
+  });
 });
 
 const login = async (page: Page) => {
@@ -33,8 +98,10 @@ test("adds a card to a column", async ({ page }) => {
 test("moves a card between columns", async ({ page }) => {
   await page.goto("/");
   await login(page);
-  const card = page.getByTestId("card-card-1");
-  const targetColumn = page.getByTestId("column-col-review");
+  const card = page.getByTestId("card-card-11");
+  const targetColumn = page.getByTestId("column-col-4");
+  await card.scrollIntoViewIfNeeded();
+  await targetColumn.scrollIntoViewIfNeeded();
   const cardBox = await card.boundingBox();
   const columnBox = await targetColumn.boundingBox();
   if (!cardBox || !columnBox) {
@@ -48,11 +115,11 @@ test("moves a card between columns", async ({ page }) => {
   await page.mouse.down();
   await page.mouse.move(
     columnBox.x + columnBox.width / 2,
-    columnBox.y + 120,
+    columnBox.y + columnBox.height / 2,
     { steps: 12 }
   );
   await page.mouse.up();
-  await expect(targetColumn.getByTestId("card-card-1")).toBeVisible();
+  await expect(targetColumn.getByText("Align roadmap themes")).toBeVisible();
 });
 
 test("rejects invalid credentials", async ({ page }) => {
