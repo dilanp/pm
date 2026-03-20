@@ -15,7 +15,7 @@ import { AIChatSidebar } from "@/components/AIChatSidebar";
 import { KanbanColumn } from "@/components/KanbanColumn";
 import { KanbanCardPreview } from "@/components/KanbanCardPreview";
 import { createId, initialData, moveCard, type BoardData } from "@/lib/kanban";
-import { API_BASE_URL, toApiUpdate, toBoardData } from "@/lib/boardApi";
+import { API_BASE_URL, getAuthHeaders, toApiUpdate, toBoardData } from "@/lib/boardApi";
 
 type KanbanBoardProps = {
   onLogout?: () => void;
@@ -42,6 +42,7 @@ export const KanbanBoard = ({ onLogout }: KanbanBoardProps) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/board`, {
         cache: "no-store",
+        headers: getAuthHeaders(),
       });
       if (!response.ok) {
         throw new Error("Failed to load board");
@@ -62,7 +63,7 @@ export const KanbanBoard = ({ onLogout }: KanbanBoardProps) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/board`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(toApiUpdate(nextBoard)),
       });
       if (!response.ok) {

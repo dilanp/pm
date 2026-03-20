@@ -90,7 +90,7 @@ def call_openrouter_messages(messages: list[dict[str, str]], max_tokens: int = 5
                 )
                 raise HTTPException(
                     status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail="OpenRouter request failed",
+                    detail="AI service request failed",
                 )
 
             data = response.json()
@@ -98,7 +98,7 @@ def call_openrouter_messages(messages: list[dict[str, str]], max_tokens: int = 5
 
     raise HTTPException(
         status_code=status.HTTP_502_BAD_GATEWAY,
-        detail="OpenRouter request failed after retries",
+        detail="AI service request failed after retries",
     )
 
 
@@ -106,10 +106,10 @@ def parse_ai_response(payload: str) -> AIChatStructuredResponse:
     try:
         data = json.loads(payload)
     except json.JSONDecodeError as exc:
-        logger.error("OpenRouter response was not valid JSON: %s", exc)
+        logger.error("AI response was not valid JSON: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="OpenRouter response was not valid JSON",
+            detail="AI service response was not valid JSON",
         ) from exc
 
     try:
@@ -118,7 +118,7 @@ def parse_ai_response(payload: str) -> AIChatStructuredResponse:
         logger.error("OpenRouter response validation failed: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="OpenRouter response validation failed",
+            detail="AI service response validation failed",
         ) from exc
 
 
@@ -132,7 +132,7 @@ def _extract_message(data: dict[str, Any]) -> str:
         logger.error("OpenRouter response parse error: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="OpenRouter response parse error",
+            detail="AI service response parse error",
         ) from exc
 
 

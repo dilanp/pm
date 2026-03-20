@@ -39,7 +39,25 @@ export type ApiBoardUpdate = {
   };
 };
 
+// Set NEXT_PUBLIC_API_BASE_URL when running frontend dev server against Docker backend
+// e.g., NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+
+const DEMO_AUTH = "user:password";
+
+const encodeBasicAuth = (value: string): string => {
+  if (typeof btoa === "function") {
+    return btoa(value);
+  }
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(value, "utf-8").toString("base64");
+  }
+  return value;
+};
+
+export const getAuthHeaders = (): Record<string, string> => ({
+  Authorization: `Basic ${encodeBasicAuth(DEMO_AUTH)}`,
+});
 
 const columnId = (id: number) => `col-${id}`;
 const cardId = (id: number) => `card-${id}`;

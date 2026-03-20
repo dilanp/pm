@@ -54,12 +54,12 @@ def require_demo_auth(
 
 
 @app.get("/api/board")
-def read_board() -> dict:
+def read_board(_: str = Depends(require_demo_auth)) -> dict:
   return get_board()
 
 
 @app.put("/api/board")
-def update_board(payload: BoardEnvelope) -> dict:
+def update_board(payload: BoardEnvelope, _: str = Depends(require_demo_auth)) -> dict:
   return replace_board(payload.board.model_dump())
 
 

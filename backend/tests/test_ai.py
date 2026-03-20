@@ -69,7 +69,7 @@ def test_ai_chat_applies_board_update(tmp_path, monkeypatch) -> None:
     assert payload["message"] == "Updated the board title."
     assert payload["board"]["title"] == "Launch Plan"
 
-    board_response = client.get("/api/board")
+    board_response = client.get("/api/board", auth=("user", "password"))
     assert board_response.status_code == 200
     assert board_response.json()["board"]["title"] == "Launch Plan"
 

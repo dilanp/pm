@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import clsx from "clsx";
 import type { BoardData } from "@/lib/kanban";
 import { sendAiChat, type AiChatMessage } from "@/lib/aiApi";
@@ -58,8 +58,6 @@ export const AIChatSidebar = ({ board, onBoardUpdate }: AIChatSidebarProps) => {
       setIsSending(false);
     }
   };
-
-  const lastMessage = useMemo(() => messages[messages.length - 1], [messages]);
 
   return (
     <aside className="rounded-[32px] border border-[var(--stroke)] bg-white/80 p-6 shadow-[var(--shadow)] backdrop-blur">
@@ -131,12 +129,6 @@ export const AIChatSidebar = ({ board, onBoardUpdate }: AIChatSidebarProps) => {
           Send
         </button>
       </form>
-
-      {lastMessage?.role === "assistant" ? (
-        <p className="mt-4 text-xs text-[var(--gray-text)]">
-          Latest: {lastMessage.content}
-        </p>
-      ) : null}
     </aside>
   );
 };

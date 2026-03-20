@@ -42,6 +42,7 @@ export const KanbanColumn = ({
           <input
             value={column.title}
             onChange={(event) => onRename(column.id, event.target.value)}
+            maxLength={50}
             className="mt-3 w-full bg-transparent font-display text-lg font-semibold text-[var(--navy-dark)] outline-none"
             aria-label="Column title"
           />

@@ -1,5 +1,5 @@
 import type { BoardData } from "@/lib/kanban";
-import { API_BASE_URL, toApiUpdate, toBoardData, type ApiBoard } from "@/lib/boardApi";
+import { API_BASE_URL, getAuthHeaders, toApiUpdate, toBoardData, type ApiBoard } from "@/lib/boardApi";
 
 export type AiChatMessage = {
   role: "user" | "assistant";
@@ -9,18 +9,6 @@ export type AiChatMessage = {
 export type AiChatResponse = {
   message: string;
   board: ApiBoard | null;
-};
-
-const DEMO_AUTH = "user:password";
-
-const encodeBasicAuth = (value: string) => {
-  if (typeof btoa === "function") {
-    return btoa(value);
-  }
-  if (typeof Buffer !== "undefined") {
-    return Buffer.from(value, "utf-8").toString("base64");
-  }
-  return value;
 };
 
 export const sendAiChat = async (
@@ -38,7 +26,7 @@ export const sendAiChat = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${encodeBasicAuth(DEMO_AUTH)}`,
+      ...getAuthHeaders(),
     },
     body: JSON.stringify(payload),
   });
